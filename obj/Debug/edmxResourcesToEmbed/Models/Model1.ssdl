@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="busreservationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="AdminId" />
+    </Key>
+    <Property Name="AdminId" Type="int" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="15" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Booking">
+    <Key>
+      <PropertyRef Name="TicketId" />
+    </Key>
+    <Property Name="TicketId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="EmailId" Type="varchar" MaxLength="25" />
+    <Property Name="MobileNumber" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="BusName" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Start" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Destination" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="DateOfJourney" Type="date" Nullable="false" />
+    <Property Name="Seats" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Buses">
+    <Key>
+      <PropertyRef Name="BusId" />
+    </Key>
+    <Property Name="BusId" Type="int" Nullable="false" />
+    <Property Name="BusName" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Start" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Destination" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="DateOfJourney" Type="date" Nullable="false" />
+    <Property Name="Availability" Type="int" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmailId" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="MobileNumber" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="DateOfBirth" Type="date" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Booking__Custome__5629CD9C">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="CancelBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TicketId" Type="int" Mode="In" />
+    <Parameter Name="CustomerId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetBookingbyCid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Cid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetBus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Start" Type="varchar" Mode="In" />
+    <Parameter Name="Destination" Type="varchar" Mode="In" />
+    <Parameter Name="DateOfJourney" Type="date" Mode="In" />
+  </Function>
+  <EntityContainer Name="busreservationModelStoreContainer">
+    <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Buses" EntityType="Self.Buses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Booking__Custome__5629CD9C" Association="Self.FK__Booking__Custome__5629CD9C">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Booking" EntitySet="Booking" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

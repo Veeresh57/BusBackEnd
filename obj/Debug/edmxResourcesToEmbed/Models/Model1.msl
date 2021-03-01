@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="busreservationModelStoreContainer" CdmEntityContainer="busreservationEntities">
+    <EntitySetMapping Name="Admins">
+      <EntityTypeMapping TypeName="busreservationModel.Admin">
+        <MappingFragment StoreEntitySet="Admin">
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bookings">
+      <EntityTypeMapping TypeName="busreservationModel.Booking">
+        <MappingFragment StoreEntitySet="Booking">
+          <ScalarProperty Name="Seats" ColumnName="Seats" />
+          <ScalarProperty Name="DateOfJourney" ColumnName="DateOfJourney" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="BusName" ColumnName="BusName" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Buses">
+      <EntityTypeMapping TypeName="busreservationModel.Bus">
+        <MappingFragment StoreEntitySet="Buses">
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+          <ScalarProperty Name="DateOfJourney" ColumnName="DateOfJourney" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="BusName" ColumnName="BusName" />
+          <ScalarProperty Name="BusId" ColumnName="BusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="busreservationModel.Customer">
+        <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetBookingbyCid" FunctionName="busreservationModel.Store.GetBookingbyCid">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="busreservationModel.GetBookingbyCid_Result">
+          <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="BusName" ColumnName="BusName" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="DateOfJourney" ColumnName="DateOfJourney" />
+          <ScalarProperty Name="Seats" ColumnName="Seats" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetBus" FunctionName="busreservationModel.Store.GetBus">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="busreservationModel.GetBus_Result">
+          <ScalarProperty Name="BusId" ColumnName="BusId" />
+          <ScalarProperty Name="BusName" ColumnName="BusName" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="DateOfJourney" ColumnName="DateOfJourney" />
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="CancelBooking" FunctionName="busreservationModel.Store.CancelBooking">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="busreservationModel.CancelBooking_Result">
+          <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="BusName" ColumnName="BusName" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="DateOfJourney" ColumnName="DateOfJourney" />
+          <ScalarProperty Name="Seats" ColumnName="Seats" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

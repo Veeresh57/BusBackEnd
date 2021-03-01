@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="busreservationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="busreservationEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Admins" EntityType="busreservationModel.Admin" />
+    <EntitySet Name="Bookings" EntityType="busreservationModel.Booking" />
+    <EntitySet Name="Buses" EntityType="busreservationModel.Bus" />
+    <EntitySet Name="Customers" EntityType="busreservationModel.Customer" />
+    <AssociationSet Name="FK__Booking__Custome__5629CD9C" Association="busreservationModel.FK__Booking__Custome__5629CD9C">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Booking" EntitySet="Bookings" />
+    </AssociationSet>
+    <FunctionImport Name="GetBookingbyCid" ReturnType="Collection(busreservationModel.GetBookingbyCid_Result)">
+      <Parameter Name="Cid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetBus" ReturnType="Collection(busreservationModel.GetBus_Result)">
+      <Parameter Name="Start" Mode="In" Type="String" />
+      <Parameter Name="Destination" Mode="In" Type="String" />
+      <Parameter Name="DateOfJourney" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="CancelTicket">
+      <Parameter Name="TicketId" Mode="In" Type="Int32" />
+      <Parameter Name="CustomerId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="CancelBooking" ReturnType="Collection(busreservationModel.CancelBooking_Result)">
+      <Parameter Name="TicketId" Mode="In" Type="Int32" />
+      <Parameter Name="CustomerId" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="AdminId" />
+    </Key>
+    <Property Name="AdminId" Type="Int32" Nullable="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Booking">
+    <Key>
+      <PropertyRef Name="TicketId" />
+    </Key>
+    <Property Name="TicketId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerId" Type="Int32" Nullable="false" />
+    <Property Name="EmailId" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="MobileNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="BusName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Start" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Destination" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="DateOfJourney" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Seats" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="busreservationModel.FK__Booking__Custome__5629CD9C" FromRole="Booking" ToRole="Customer" />
+  </EntityType>
+  <EntityType Name="Bus">
+    <Key>
+      <PropertyRef Name="BusId" />
+    </Key>
+    <Property Name="BusId" Type="Int32" Nullable="false" />
+    <Property Name="BusName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Start" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Destination" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="DateOfJourney" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Availability" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmailId" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="MobileNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Bookings" Relationship="busreservationModel.FK__Booking__Custome__5629CD9C" FromRole="Customer" ToRole="Booking" />
+  </EntityType>
+  <Association Name="FK__Booking__Custome__5629CD9C">
+    <End Type="busreservationModel.Customer" Role="Customer" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="busreservationModel.Booking" Role="Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="GetBookingbyCid_Result">
+    <Property Type="Int32" Name="TicketId" Nullable="false" />
+    <Property Type="Int32" Name="CustomerId" Nullable="false" />
+    <Property Type="String" Name="EmailId" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="MobileNumber" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="BusName" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Start" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="Destination" Nullable="false" MaxLength="15" />
+    <Property Type="DateTime" Name="DateOfJourney" Nullable="false" />
+    <Property Type="Int32" Name="Seats" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="GetBus_Result">
+    <Property Type="Int32" Name="BusId" Nullable="false" />
+    <Property Type="String" Name="BusName" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Start" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Destination" Nullable="false" MaxLength="20" />
+    <Property Type="DateTime" Name="DateOfJourney" Nullable="false" />
+    <Property Type="Int32" Name="Availability" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="CancelBooking_Result">
+    <Property Type="Int32" Name="TicketId" Nullable="false" />
+    <Property Type="Int32" Name="CustomerId" Nullable="false" />
+    <Property Type="String" Name="EmailId" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="MobileNumber" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="BusName" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Start" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="Destination" Nullable="false" MaxLength="15" />
+    <Property Type="DateTime" Name="DateOfJourney" Nullable="false" />
+    <Property Type="Int32" Name="Seats" Nullable="false" />
+  </ComplexType>
+</Schema>
