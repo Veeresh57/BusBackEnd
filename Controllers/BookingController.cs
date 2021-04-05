@@ -5,9 +5,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using BusReservation.Models;
+using System.Web.Http.Cors;
 
 namespace BusReservation.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class BookingController : ApiController
     {
         [HttpGet]
@@ -27,7 +29,7 @@ namespace BusReservation.Controllers
 
             using (busreservationEntities db = new busreservationEntities())
             {
-                var data = db.GetBookingbyCid(CustomerId).ToList();
+                var data = db.GetBookbyCid(CustomerId).ToList();
                 if (data != null)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, data);
@@ -56,9 +58,9 @@ namespace BusReservation.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
         }
+        
         [HttpDelete]
-        [Route("api/Booking/Cancel/{TicketId}/{CustomerId}")]
-        public HttpResponseMessage Cancel(int TicketId, int CustomerId)
+        public HttpResponseMessage Cancel(int CustomerId, int TicketId)
         {
             try
             {

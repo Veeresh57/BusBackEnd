@@ -69,3 +69,6 @@ E:\LTI\BusReservation\BusReservation\obj\Debug\BusReservation.csproj.CoreCompile
 E:\LTI\BusReservation\BusReservation\obj\Debug\BusReservation.csproj.CopyComplete
 E:\LTI\BusReservation\BusReservation\obj\Debug\BusReservation.dll
 E:\LTI\BusReservation\BusReservation\obj\Debug\BusReservation.pdb
+E:\LTI\BusReservation\BusReservation\bin\System.Web.Cors.dll
+E:\LTI\BusReservation\BusReservation\bin\System.Web.Http.Cors.dll
+E:\LTI\BusReservation\BusReservation\bin\System.Web.Http.Cors.xml

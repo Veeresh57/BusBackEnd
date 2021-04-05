@@ -23,6 +23,8 @@ namespace BusReservation.Models
         public string Destination { get; set; }
         public System.DateTime DateOfJourney { get; set; }
         public int Seats { get; set; }
+        public string Bookingstatus { get; set; }
+        public string Travelstatus { get; set; }
     
         public Customer Customer { get; set; }
     }

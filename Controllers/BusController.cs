@@ -5,9 +5,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using BusReservation.Models;
+using System.Web.Http.Cors;
 
 namespace BusReservation.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class BusController : ApiController
     {
         [HttpGet]
@@ -39,7 +41,6 @@ namespace BusReservation.Controllers
             }
         }
         [HttpGet]
-        [Route("api/Bus/Search/{Start}/{Destination}/{DateOfJourney}")]
         public HttpResponseMessage Search(string Start,string Destination,DateTime DateOfJourney)
         {
             using (busreservationEntities db=new busreservationEntities())
@@ -51,7 +52,7 @@ namespace BusReservation.Controllers
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Customer not found");
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Bus Not Available");
                 }
             }
         }

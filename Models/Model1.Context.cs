@@ -83,5 +83,14 @@ namespace BusReservation.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CancelBooking_Result>("CancelBooking", ticketIdParameter, customerIdParameter);
         }
+    
+        public virtual ObjectResult<GetBookbyCid_Result> GetBookbyCid(Nullable<int> cid)
+        {
+            var cidParameter = cid.HasValue ?
+                new ObjectParameter("Cid", cid) :
+                new ObjectParameter("Cid", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetBookbyCid_Result>("GetBookbyCid", cidParameter);
+        }
     }
 }

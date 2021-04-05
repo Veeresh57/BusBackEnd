@@ -5,11 +5,14 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using BusReservation.Models;
+using System.Web.Http.Cors;
 
 namespace BusReservation.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AdminController : ApiController
     {
+
         [HttpPost]
         [Route("api/Admin/Login")]
         public HttpResponseMessage Login([FromBody] Admin admin)

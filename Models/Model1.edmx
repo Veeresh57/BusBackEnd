@@ -25,12 +25,14 @@
           <Property Name="Destination" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="DateOfJourney" Type="date" Nullable="false" />
           <Property Name="Seats" Type="int" Nullable="false" />
+          <Property Name="Bookingstatus" Type="varchar" MaxLength="20" />
+          <Property Name="Travelstatus" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="Buses">
           <Key>
             <PropertyRef Name="BusId" />
           </Key>
-          <Property Name="BusId" Type="int" Nullable="false" />
+          <Property Name="BusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BusName" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Start" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Destination" Type="varchar" MaxLength="20" Nullable="false" />
@@ -47,7 +49,7 @@
           <Property Name="DateOfBirth" Type="date" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Booking__Custome__5629CD9C">
+        <Association Name="FK__Booking__Custome__498EEC8D">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -65,6 +67,9 @@
           <Parameter Name="TicketId" Type="int" Mode="In" />
           <Parameter Name="CustomerId" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetBookbyCid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Cid" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetBookingbyCid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Cid" Type="int" Mode="In" />
         </Function>
@@ -78,7 +83,7 @@
           <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Buses" EntityType="Self.Buses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Booking__Custome__5629CD9C" Association="Self.FK__Booking__Custome__5629CD9C">
+          <AssociationSet Name="FK__Booking__Custome__498EEC8D" Association="Self.FK__Booking__Custome__498EEC8D">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Booking" EntitySet="Booking" />
           </AssociationSet>
@@ -112,6 +117,9 @@
             <Parameter Name="TicketId" Mode="In" Type="Int32" />
             <Parameter Name="CustomerId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="GetBookbyCid" ReturnType="Collection(busreservationModel.GetBookbyCid_Result)">
+            <Parameter Name="Cid" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Admin">
           <Key>
@@ -134,6 +142,8 @@
           <Property Name="DateOfJourney" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Seats" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Customer" Relationship="busreservationModel.FK__Booking__Custome__5629CD9C" FromRole="Booking" ToRole="Customer" />
+          <Property Name="Bookingstatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Travelstatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Bus">
           <Key>
@@ -201,6 +211,19 @@
           <Property Type="DateTime" Name="DateOfJourney" Nullable="false" />
           <Property Type="Int32" Name="Seats" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="GetBookbyCid_Result">
+          <Property Type="Int32" Name="TicketId" Nullable="false" />
+          <Property Type="Int32" Name="CustomerId" Nullable="false" />
+          <Property Type="String" Name="EmailId" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="MobileNumber" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="BusName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Start" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Destination" Nullable="false" MaxLength="15" />
+          <Property Type="DateTime" Name="DateOfJourney" Nullable="false" />
+          <Property Type="Int32" Name="Seats" Nullable="false" />
+          <Property Type="String" Name="Bookingstatus" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Travelstatus" Nullable="true" MaxLength="20" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -218,6 +241,8 @@
           <EntitySetMapping Name="Bookings">
             <EntityTypeMapping TypeName="busreservationModel.Booking">
               <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="Travelstatus" ColumnName="Travelstatus" />
+                <ScalarProperty Name="Bookingstatus" ColumnName="Bookingstatus" />
                 <ScalarProperty Name="Seats" ColumnName="Seats" />
                 <ScalarProperty Name="DateOfJourney" ColumnName="DateOfJourney" />
                 <ScalarProperty Name="Destination" ColumnName="Destination" />
@@ -292,6 +317,23 @@
                 <ScalarProperty Name="Destination" ColumnName="Destination" />
                 <ScalarProperty Name="DateOfJourney" ColumnName="DateOfJourney" />
                 <ScalarProperty Name="Seats" ColumnName="Seats" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetBookbyCid" FunctionName="busreservationModel.Store.GetBookbyCid">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="busreservationModel.GetBookbyCid_Result">
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="BusName" ColumnName="BusName" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="DateOfJourney" ColumnName="DateOfJourney" />
+                <ScalarProperty Name="Seats" ColumnName="Seats" />
+                <ScalarProperty Name="Bookingstatus" ColumnName="Bookingstatus" />
+                <ScalarProperty Name="Travelstatus" ColumnName="Travelstatus" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
